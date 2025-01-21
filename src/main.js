@@ -1,5 +1,7 @@
 import './styles.css';
-import { drawTriangle } from './shapes/triangle.js';
+import { Triangle } from './shapes/shapes/triangle.js';
+import { Square } from './shapes/shapes/square.js';
+
 function initWebGL() {
     const canvas = document.getElementById("game");
     const gl = canvas.getContext('webgl');
@@ -23,7 +25,11 @@ function main() {
     gl.clearColor(0.988, 0.796, 0, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
-    drawTriangle(gl);
+    const triangle = new Triangle(gl);
+    const square = new Square(gl);
+
+    triangle.draw();
+    square.draw();
 }
 
 function resizeCanvasToDisplaySize(canvas) {
