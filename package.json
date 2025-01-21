@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Chahat08/WebGL_Maze_Game#readme",
   "devDependencies": {
+    "gl-matrix": "^3.4.3",
     "vite": "^6.0.10",
     "vite-plugin-string": "^1.2.3"
   }

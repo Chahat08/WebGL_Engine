@@ -1,18 +1,20 @@
 import { Shape } from '../Shape.js';
-import vertexShaderSource from '../../shaders/vertexShaderSource.vert';
-import fragmentShaderSource from '../../shaders/fragmentShaderSource.frag';
+import { getShapeProgram } from '../../shaders/shaders.js';
+import vertexShaderSource from '../../shaders/shaders/vertexShaderSource.vert';
+import fragmentShaderSource from '../../shaders/shaders/fragmentShaderSource.frag';
 
 export class Square extends Shape {
-    constructor(gl) {
+    constructor(gl, sideLength) {
         const vertices = [
-            -0.75, 0.75, 0.0,
-            -0.5, 0.75, 0.0,
-            -0.75, 0.5, 0.0,
-            -0.75, 0.5, 0.0,
-            -0.5, 0.5, 0.0,
-            -0.5, 0.75, 0.0
+            - sideLength / 2.0, sideLength / 2.0, 0.0,
+            sideLength / 2.0, sideLength / 2.0, 0.0,
+            - sideLength / 2.0, -sideLength / 2.0, 0.0,
+            - sideLength / 2.0, -sideLength / 2.0, 0.0,
+            sideLength / 2.0, sideLength / 2.0, 0.0,
+            sideLength / 2.0, - sideLength / 2.0, 0.0
         ];
-
-        super(gl, vertices, vertexShaderSource, fragmentShaderSource, gl.TRIANGLES);
+      
+        const program = getShapeProgram(gl, vertexShaderSource, fragmentShaderSource);
+        super(gl, vertices, program, gl.TRIANGLES, gl.STATIC_DRAW);
     }
 }

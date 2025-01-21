@@ -1,11 +1,12 @@
-import { createShaderProgram } from '../utils/shaders.js';
+import { mat4 } from 'gl-matrix';
 
 export class Shape {
 
-    constructor(gl, vertices, vertexShaderSource, fragmentShaderSource, primitive = gl.TRIANGLES, drawMode = gl.STATIC_DRAW) {
+    constructor(gl, vertices, shaderProgram, primitive = gl.TRIANGLES, drawMode = gl.STATIC_DRAW) {
         this.gl = gl;
         this.drawMode = drawMode;
         this.primitive = primitive;
+        this.program = shaderProgram;
 
         this.buffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
@@ -13,11 +14,7 @@ export class Shape {
         gl.bindBuffer(gl.ARRAY_BUFFER, null);
 
         this.vertexCount = vertices.length / 3; // each vert has 3 coords
-
-        this.program = createShaderProgram(gl, vertexShaderSource, fragmentShaderSource);
-        if (!this.program) {
-            console.error('Failed to create shader program');
-        }
+        this.modelTransform = mat4.create();
     }
 
     draw() {
@@ -44,8 +41,19 @@ export class Shape {
             0            
         );
 
+        this.transform(this.modelTransform);
+
         gl.drawArrays(this.primitive, 0, this.vertexCount);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, null);
+    }
+
+    transform(modelTransform) {
+        if (modelTransform)
+            this.modelTransform = modelTransform;
+
+        const gl = this.gl;
+        const uModelLoc = gl.getUniformLocation(this.program, 'uModelMatrix');
+        gl.uniformMatrix4fv(uModelLoc, false, this.modelTransform);
     }
 }

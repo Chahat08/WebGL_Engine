@@ -18,18 +18,24 @@ function main() {
     const gl = initWebGL();
     if (!gl) return;
 
-    resizeCanvasToDisplaySize(gl.canvas);
-
-    gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
-
-    gl.clearColor(0.988, 0.796, 0, 1.0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-
     const triangle = new Triangle(gl);
-    const square = new Square(gl);
+    const square = new Square(gl, 0.5);
 
-    triangle.draw();
-    square.draw();
+    function render() {
+        resizeCanvasToDisplaySize(gl.canvas);
+
+        gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
+
+        gl.clearColor(0.988, 0.796, 0, 1.0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+
+        triangle.draw();
+        square.draw();
+
+        requestAnimationFrame(render);
+    }
+
+    render();
 }
 
 function resizeCanvasToDisplaySize(canvas) {
