@@ -17,7 +17,7 @@ export class Scene {
 
     setupObjects() {
         const objects = [];
-        objects.push(new Triangle(this.gl));
+        objects.push(new Triangle(this.gl, 0.7));
         objects.push(new Square(this.gl, 0.5));
         return objects;
     }

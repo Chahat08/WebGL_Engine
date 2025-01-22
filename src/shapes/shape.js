@@ -15,6 +15,8 @@ export class Shape {
 
         this.vertexCount = vertices.length / 3; // each vert has 3 coords
         this.modelTransform = mat4.create();
+
+        console.log(vertices)
     }
 
     draw() {

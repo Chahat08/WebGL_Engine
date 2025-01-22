@@ -5,12 +5,16 @@ import vertexShaderSource from '../../shaders/shaders/vertexShaderSource.vert';
 import fragmentShaderSource from '../../shaders/shaders/fragmentShaderSource.frag';
 
 export class Triangle extends Shape {
-    constructor(gl) {
+    // equilateral tri of givne length
+    constructor(gl, sideLength) {
+        const halfLen = sideLength / 2.0;
+        const tanThirty = Math.tan(180.0 * 30.0 / Math.PI);
+        const val = halfLen * tanThirty;
 
         const vertices = [
-            0.0, 0.5, 0.0,
-            -0.5, -0.5, 0.0,
-            0.5, -0.5, 0.0
+            0.0, (Math.sqrt(3.0) * halfLen) - val, 0.0,
+            halfLen, -val, 0.0,
+            -halfLen, -val, 0.0
         ];
 
         const modelMatrix = getModelMatrix(
