@@ -8,6 +8,7 @@ export class Camera {
         this.position = vec3.fromValues(0.0, 0.0, 5.0);
         this.target = vec3.fromValues(0.0, 0.0, -1.0);
         this.up = vec3.fromValues(0.0, 1.0, 0.0);
+        this.worldUp = vec3.fromValues(0.0, 1.0, 0.0);
         this.front = vec3.create();
 
         this.lookAt = mat4.create();
@@ -26,8 +27,6 @@ export class Camera {
 
     move(direction, deltaTime) {
         const speed = this.speed * deltaTime;
-
-        console.log(this.position);
 
         if (direction === 'forward') {
             const forwardOffset = vec3.create();
@@ -49,12 +48,24 @@ export class Camera {
             vec3.subtract(this.position, this.position, leftOffset);
         }
 
-        else {
+        else if(direction =='rightward') {
             const rightOffset = vec3.create();
             vec3.cross(rightOffset, this.target, this.up);
             vec3.normalize(rightOffset, rightOffset);
             vec3.scale(rightOffset, rightOffset, speed);
             vec3.add(this.position, this.position, rightOffset);
+        }
+
+        else if (direction == 'upward') {
+            const upOffset = vec3.create();
+            vec3.scale(upOffset, this.up, speed);
+            vec3.add(this.position, this.position, upOffset);
+        }
+
+        else if (direction == 'downward') {
+            const downOffset = vec3.create();
+            vec3.scale(downOffset, this.up, speed);
+            vec3.subtract(this.position, this.position, downOffset);
         }
 
         this.updateLookAtMatrix();

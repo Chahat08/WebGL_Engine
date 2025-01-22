@@ -7,6 +7,7 @@ import { getShapeProgram } from '../shaders/shaders.js';
 import vertexShaderSource from '../shaders/shaders/vertexShaderSource.vert';
 import fragmentShaderSource from '../shaders/shaders/fragmentShaderSource.frag';
 import { mat4 } from 'gl-matrix';
+import { Cube } from "../shapes/shapes/cube";
 
 export class Scene {
     constructor(gl) {
@@ -31,6 +32,7 @@ export class Scene {
         const objects = [];
         objects.push(new Triangle(this.gl, this.program, 0.7, [1.0,0.0,0.0,1.0]));
         objects.push(new Square(this.gl, this.program, 0.5, [0.0, 0.0, 1.0, 1.0]));
+        objects.push(new Cube(this.gl, this.program, 1.0, [0.0, 1.0, 0.0, 1.0]));
         objects[0].translate([2, 0, 0]);
         objects[1].translate([-2, 0, 0]);
         return objects;

@@ -26,5 +26,11 @@ export class Input {
  
         if (this.keysDown['a'] || this.keysDown['A']) 
             this.camera.move("leftward", deltaTime); 
+
+        if (this.keysDown['ArrowUp'])
+            this.camera.move("upward", deltaTime);
+
+        if (this.keysDown['ArrowDown'])
+            this.camera.move("downward", deltaTime);
     }
 }
