@@ -1,7 +1,8 @@
 export class Graphics {
-    constructor(gl, objects) {
+    constructor(gl, objects, clearColor) {
         this.gl = gl;
         this.objects = objects;
+        this.clearColor = clearColor;
 
         this.render = this.render.bind(this);
     }
@@ -11,7 +12,7 @@ export class Graphics {
 
         this.gl.viewport(0, 0, this.gl.drawingBufferWidth, this.gl.drawingBufferHeight);
 
-        this.gl.clearColor(0.988, 0.796, 0, 1.0);
+        this.gl.clearColor(this.clearColor[0], this.clearColor[1], this.clearColor[2], this.clearColor[3]);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
         this.drawObjects();

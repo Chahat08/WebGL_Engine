@@ -42,8 +42,6 @@ let cachedProgram = null;
 
 export function getShapeProgram(gl, vertexSource, fragmentSource) {
     if (!cachedProgram) {
-        console.log(vertexSource);
-        console.log(fragmentSource);
         cachedProgram = createShaderProgram(gl, vertexSource, fragmentSource);
     }
     return cachedProgram;

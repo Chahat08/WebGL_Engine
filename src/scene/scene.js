@@ -1,14 +1,19 @@
 import { Square } from "../shapes/shapes/square";
 import { Triangle } from "../shapes/shapes/triangle";
 import { Graphics } from "./graphics"
+import { getShapeProgram } from '../shaders/shaders.js';
+import vertexShaderSource from '../shaders/shaders/vertexShaderSource.vert';
+import fragmentShaderSource from '../shaders/shaders/fragmentShaderSource.frag';
 
 export class Scene {
     constructor(gl) {
         this.gl = gl;
 
+        this.program = getShapeProgram(gl, vertexShaderSource, fragmentShaderSource);
         this.objects = this.setupObjects();
 
-        this.graphics = new Graphics(gl, this.objects);
+        this.clearColor = [0.988, 0.796, 0, 1.0];
+        this.graphics = new Graphics(gl, this.objects, this.clearColor);
     }
 
     render() {
@@ -17,8 +22,8 @@ export class Scene {
 
     setupObjects() {
         const objects = [];
-        objects.push(new Triangle(this.gl, 0.7));
-        objects.push(new Square(this.gl, 0.5));
+        objects.push(new Triangle(this.gl, this.program, 0.7, [1.0,0.0,0.0,1.0]));
+        objects.push(new Square(this.gl, this.program, 0.5, [0.0, 0.0, 1.0, 1.0]));
         return objects;
     }
 }

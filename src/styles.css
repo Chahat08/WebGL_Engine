@@ -5,6 +5,10 @@ html, body {
     overflow: hidden;
 }
 
+h1{
+    justify-self: center;
+}
+
 #game {
     width: 800px;
     height: 600px;

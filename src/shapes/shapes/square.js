@@ -1,10 +1,7 @@
 import { Shape } from '../Shape.js';
-import { getShapeProgram } from '../../shaders/shaders.js';
-import vertexShaderSource from '../../shaders/shaders/vertexShaderSource.vert';
-import fragmentShaderSource from '../../shaders/shaders/fragmentShaderSource.frag';
 
 export class Square extends Shape {
-    constructor(gl, sideLength) {
+    constructor(gl, program, sideLength, color) {
         const vertices = [
             - sideLength / 2.0, sideLength / 2.0, 0.0,
             sideLength / 2.0, sideLength / 2.0, 0.0,
@@ -14,7 +11,6 @@ export class Square extends Shape {
             sideLength / 2.0, - sideLength / 2.0, 0.0
         ];
       
-        const program = getShapeProgram(gl, vertexShaderSource, fragmentShaderSource);
-        super(gl, vertices, program, gl.TRIANGLES, gl.STATIC_DRAW);
+        super(gl, vertices, program, color, gl.TRIANGLES, gl.STATIC_DRAW);
     }
 }
