@@ -1,6 +1,7 @@
 import { Square } from "../shapes/shapes/square";
 import { Triangle } from "../shapes/shapes/triangle";
 import { Graphics } from "./graphics"
+import { Camera } from './camera';
 import { getShapeProgram } from '../shaders/shaders.js';
 import vertexShaderSource from '../shaders/shaders/vertexShaderSource.vert';
 import fragmentShaderSource from '../shaders/shaders/fragmentShaderSource.frag';
@@ -13,7 +14,9 @@ export class Scene {
         this.objects = this.setupObjects();
 
         this.clearColor = [0.988, 0.796, 0, 1.0];
-        this.graphics = new Graphics(gl, this.objects, this.clearColor);
+
+        this.camera = new Camera(gl, this.program);
+        this.graphics = new Graphics(gl, this.objects, this.camera, this.clearColor);
     }
 
     render() {

@@ -1,8 +1,9 @@
 export class Graphics {
-    constructor(gl, objects, clearColor) {
+    constructor(gl, objects, camera, clearColor) {
         this.gl = gl;
         this.objects = objects;
         this.clearColor = clearColor;
+        this.camera = camera;
 
         this.render = this.render.bind(this);
     }
@@ -15,6 +16,7 @@ export class Graphics {
         this.gl.clearColor(this.clearColor[0], this.clearColor[1], this.clearColor[2], this.clearColor[3]);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
+        this.camera.updateLookAtMatrix();
         this.drawObjects();
 
         requestAnimationFrame(this.render);
