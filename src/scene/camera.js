@@ -9,7 +9,13 @@ export class Camera {
         this.target = vec3.fromValues(0.0, 0.0, -1.0);
         this.up = vec3.fromValues(0.0, 1.0, 0.0);
         this.worldUp = vec3.fromValues(0.0, 1.0, 0.0);
-        this.front = vec3.create();
+        this.right = vec3.create();
+        vec3.cross(this.right, this.target, this.up);
+        vec3.normalize(this.right, this.right);
+
+        this.pitch = 0.0;
+        this.yaw = -Math.PI / 2.0;
+        this.constrainPitch = true;
 
         this.lookAt = mat4.create();
         this.updateLookAtMatrix();
@@ -18,11 +24,28 @@ export class Camera {
     }
 
     updateLookAtMatrix() {
-        vec3.add(this.front, this.position, this.target);
-        this.lookAt = mat4.lookAt(this.lookAt, this.position, this.front, this.up);
+        const front = vec3.create();
+        vec3.add(front, this.position, this.target);
+        this.lookAt = mat4.lookAt(this.lookAt, this.position, front, this.up);
         this.gl.useProgram(this.program);
         const uViewMatrixLoc = this.gl.getUniformLocation(this.program, 'uViewMatrix');
         this.gl.uniformMatrix4fv(uViewMatrixLoc, false, this.lookAt);
+    }
+
+    updateCameraVectors() {
+        const front = vec3.create();
+        front[0] = Math.cos(this.yaw) * Math.cos(this.pitch);
+        front[1] = Math.sin(this.pitch);
+        front[2] = Math.sin(this.yaw) * Math.sin(this.pitch);
+        vec3.normalize(this.target, front);
+
+        vec3.cross(this.right, this.target, this.worldUp);
+        vec3.normalize(this.right, this.target);
+
+        vec3.cross(this.up, this.right, this.target);
+        vec3.normalize(this.up, this.up);
+
+        this.updateLookAtMatrix();
     }
 
     move(direction, deltaTime) {
@@ -42,17 +65,13 @@ export class Camera {
 
         else if (direction === 'leftward') {
             const leftOffset = vec3.create();
-            vec3.cross(leftOffset, this.target, this.up);
-            vec3.normalize(leftOffset, leftOffset);
-            vec3.scale(leftOffset, leftOffset, speed);
+            vec3.scale(leftOffset, this.right, speed);
             vec3.subtract(this.position, this.position, leftOffset);
         }
 
         else if(direction =='rightward') {
             const rightOffset = vec3.create();
-            vec3.cross(rightOffset, this.target, this.up);
-            vec3.normalize(rightOffset, rightOffset);
-            vec3.scale(rightOffset, rightOffset, speed);
+            vec3.scale(rightOffset, this.right, speed);
             vec3.add(this.position, this.position, rightOffset);
         }
 
@@ -69,5 +88,19 @@ export class Camera {
         }
 
         this.updateLookAtMatrix();
+    }
+
+    lookAround(xoffset, yoffset, deltaTime) {
+        this.yaw += xoffset * deltaTime;
+        this.pitch += yoffset * deltaTime;
+
+        if (this.constrainPitch) {
+            if (this.pitch > (Math.PI/2.0) - Math.PI/180.0)
+                this.pitch = (Math.PI / 2.0) - Math.PI / 180.0;
+            if (this.pitch < -((Math.PI / 2.0) - Math.PI / 180.0))
+                this.pitch = -((Math.PI / 2.0) - Math.PI / 180.0);
+        }
+
+        this.updateCameraVectors();
     }
 }

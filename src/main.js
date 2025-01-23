@@ -1,6 +1,4 @@
 import './styles.css';
-import { Triangle } from './shapes/shapes/triangle.js';
-import { Square } from './shapes/shapes/square.js';
 import { Scene } from './scene/scene';
 
 function initWebGL() {

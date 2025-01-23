@@ -1,5 +1,5 @@
-import { Square } from "../shapes/shapes/square";
-import { Triangle } from "../shapes/shapes/triangle";
+import { Square } from "../shapes/base_shapes/square";
+import { Triangle } from "../shapes/base_shapes/triangle";
 import { Graphics } from "./graphics"
 import { Camera } from './camera';
 import { Input } from './input';
@@ -7,7 +7,7 @@ import { getShapeProgram } from '../shaders/shaders.js';
 import vertexShaderSource from '../shaders/shaders/vertexShaderSource.vert';
 import fragmentShaderSource from '../shaders/shaders/fragmentShaderSource.frag';
 import { mat4 } from 'gl-matrix';
-import { Cube } from "../shapes/shapes/cube";
+import { Cube } from "../shapes/base_shapes/cube";
 
 export class Scene {
     constructor(gl) {
