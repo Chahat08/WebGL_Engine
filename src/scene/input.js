@@ -5,7 +5,7 @@ export class Input {
 
         this.keysDown = {};
 
-        this.mouseSensitivity = 0.00000000000000000000000000001;
+        this.mouseSensitivity = 0.1;
         this.lastMousePosition = null;
         this.mouseDelta = vec2.create();
 

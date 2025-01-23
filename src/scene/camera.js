@@ -36,11 +36,11 @@ export class Camera {
         const front = vec3.create();
         front[0] = Math.cos(this.yaw) * Math.cos(this.pitch);
         front[1] = Math.sin(this.pitch);
-        front[2] = Math.sin(this.yaw) * Math.sin(this.pitch);
+        front[2] = Math.sin(this.yaw) * Math.cos(this.pitch);
         vec3.normalize(this.target, front);
 
         vec3.cross(this.right, this.target, this.worldUp);
-        vec3.normalize(this.right, this.target);
+        vec3.normalize(this.right, this.right);
 
         vec3.cross(this.up, this.right, this.target);
         vec3.normalize(this.up, this.up);
