@@ -5,12 +5,12 @@ export class Square extends Shape {
         const half = sideLength / 2.0;
 
         const vertices = [
-            - half, half, 0.0,
-            half, half, 0.0,
-            - half, -half, 0.0,
-            - half, -half, 0.0,
-            half, half, 0.0,
-            half, - half, 0.0
+            - half, half, 0.0,      0.0, 0.0, 1.0,
+            half, half, 0.0,        0.0, 0.0, 1.0,
+            - half, -half, 0.0,     0.0, 0.0, 1.0,
+            - half, -half, 0.0,     0.0, 0.0, 1.0,
+            half, half, 0.0,        0.0, 0.0, 1.0,
+            half, - half, 0.0,      0.0, 0.0, 1.0,
         ];
       
         super(gl, vertices, program, color, gl.TRIANGLES, gl.STATIC_DRAW);

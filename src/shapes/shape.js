@@ -15,7 +15,7 @@ export class Shape {
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), drawMode);
         gl.bindBuffer(gl.ARRAY_BUFFER, null);
 
-        this.vertexCount = vertices.length / 3; // each vert has 3 coords
+        this.vertexCount = vertices.length / 6; // each vert has 3 pos coords + 3 normal coords
 
         this.modelTransform = mat4.create();
     }
@@ -28,20 +28,32 @@ export class Shape {
         
         gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
 
-        const aPositionLoc = gl.getAttribLocation(this.program, 'aPosition');
-        if (aPositionLoc === -1) {
-            console.error('Cannot find attribute aPosition in shader');
-            return;
-        }
+        const positionLoc = gl.getAttribLocation(this.program, 'aPosition'); 
+        const normalLoc = gl.getAttribLocation(this.program, 'aNormal');    
 
-        gl.enableVertexAttribArray(aPositionLoc);
+        const stride = 6 * Float32Array.BYTES_PER_ELEMENT; 
+        const positionOffset = 0;                          
+        const normalOffset = 3 * Float32Array.BYTES_PER_ELEMENT; 
+
+        gl.enableVertexAttribArray(positionLoc);
         gl.vertexAttribPointer(
-            aPositionLoc,
-            3,          
-            gl.FLOAT,
-            false,      
-            0,           
-            0            
+            positionLoc,      
+            3,                
+            gl.FLOAT,         
+            false,            
+            stride,           
+            positionOffset    
+        );
+
+
+        gl.enableVertexAttribArray(normalLoc);
+        gl.vertexAttribPointer(
+            normalLoc,        
+            3,                
+            gl.FLOAT,         
+            false,            
+            stride,           
+            normalOffset      
         );
 
         const uColorLoc = gl.getUniformLocation(this.program, 'uFragmentColor');

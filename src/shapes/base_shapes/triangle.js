@@ -7,9 +7,10 @@ export class Triangle extends Shape {
         const val = halfLen * tanThirty;
 
         const vertices = [
-            0.0, (Math.sqrt(3.0) * halfLen) - val, 0.0,
-            halfLen, -val, 0.0,
-            -halfLen, -val, 0.0
+            // vertex coords                                // normals
+            0.0, (Math.sqrt(3.0) * halfLen) - val, 0.0,    0.0, 0.0, 1.0,
+            halfLen, -val, 0.0,                            0.0, 0.0, 1.0,
+            -halfLen, -val, 0.0,                           0.0, 0.0, 1.0
         ];
 
         super(gl, vertices, program, color, gl.TRIANGLES, gl.STATIC_DRAW);
