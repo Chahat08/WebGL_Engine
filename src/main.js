@@ -2,7 +2,7 @@ import './styles.css';
 import { Scene } from './scene/scene';
 
 function initWebGL() {
-    const canvas = document.getElementById("game");
+    const canvas = document.getElementById("canvas");
     const gl = canvas.getContext('webgl');
 
     if (!gl) {

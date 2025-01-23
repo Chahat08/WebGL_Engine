@@ -20,7 +20,7 @@ export class Scene {
         this.clearColor = [0.988, 0.796, 0, 1.0];
 
         this.camera = new Camera(gl, this.program);
-        this.input = new Input(this.camera);
+        this.input = new Input(this.gl.canvas, this.camera);
         this.graphics = new Graphics(gl, this.objects, this.camera, this.input, this.clearColor);
     }
 

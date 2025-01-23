@@ -1,6 +1,6 @@
 import { vec2 } from 'gl-matrix';
 export class Input {
-    constructor(camera) {
+    constructor(canvas, camera) {
         this.camera = camera;
 
         this.keysDown = {};
@@ -9,18 +9,17 @@ export class Input {
         this.lastMousePosition = null;
         this.mouseDelta = vec2.create();
 
-        window.addEventListener('keydown', (event) => {
+        document.addEventListener('keydown', (event) => {
             this.keysDown[event.key] = true;
         });
 
-        window.addEventListener('keyup', (event) => {
+        document.addEventListener('keyup', (event) => {
             delete this.keysDown[event.key];
         });
 
-        window.addEventListener('mousemove', (event) => {
+        canvas.addEventListener('mousemove', (event) => {
             this.handleMouseMove(event);
         });
-
     }
 
     handleInput(deltaTime) {
