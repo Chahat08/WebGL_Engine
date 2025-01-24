@@ -56,7 +56,7 @@ export class Shape {
             normalOffset      
         );
 
-        const uColorLoc = gl.getUniformLocation(this.program, 'uFragmentColor');
+        const uColorLoc = gl.getUniformLocation(this.program, 'uObjectColor');
         gl.uniform4fv(uColorLoc, this.color);
 
         const uModelLoc = gl.getUniformLocation(this.program, 'uModelMatrix');

@@ -1,7 +1,8 @@
 export class Graphics {
-    constructor(gl, objects, camera, input, clearColor) {
+    constructor(gl, objects, lights, camera, input, clearColor) {
         this.gl = gl;
         this.objects = objects;
+        this.lights = lights;
         this.clearColor = clearColor;
         this.camera = camera;
         this.input = input;
@@ -24,6 +25,7 @@ export class Graphics {
 
         this.camera.updateLookAtMatrix();
         this.drawObjects();
+        this.drawLights();
 
         this.input.handleInput(deltaTime);
         requestAnimationFrame(this.render);
@@ -32,6 +34,11 @@ export class Graphics {
     drawObjects() {
         for (const object of this.objects)
             object.draw();
+    }
+
+    drawLights() {
+        for (const lights of this.lights)
+            lights.draw();
     }
 
     resizeCanvasToDisplaySize(canvas) {
