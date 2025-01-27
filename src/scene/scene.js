@@ -6,7 +6,7 @@ import { Input } from './input';
 import { createShaderProgram } from '../shaders/shaders.js';
 import vertexShaderSource from '../shaders/shaders/vertexShaderSource.vert';
 import object_fragmentShaderSource from '../shaders/shaders/fragmentShaderSource.frag';
-import light_fragmentShaderSource from '../shaders/shaders/light_fragmentShaderSource.frag';
+import light_fragmentShaderSource from '../shaders/shaders/Light_fragmentShaderSource.frag';
 import { mat4 } from 'gl-matrix';
 import { Cube } from "../shapes/base_shapes/cube";
 import { PointLight } from './light/pointLight.js';
@@ -21,11 +21,12 @@ export class Scene {
         this.lights = this.setupLights();
         this.setupProjectionMatrix();
 
-        this.clearColor = [0.988, 0.796, 0, 1.0];
+        this.clearColor = [0.0, 0.0, 0, 1.0];
 
-        this.camera = new Camera(gl, this.objectShader);
+        this.camera = new Camera();
         this.input = new Input(this.gl.canvas, this.camera);
-        this.graphics = new Graphics(gl, this.objects, this.lights, this.camera, this.input, this.clearColor);
+        this.graphics = new Graphics(gl, this.objects, this.lights, this.objectShader, this.lightShader,
+            this.camera, this.input, this.clearColor);
     }
 
     render() {
@@ -34,26 +35,26 @@ export class Scene {
 
     setupObjects() {
         const objects = [];
-        //objects.push(new Triangle(this.gl, this.objectShader, 0.7, [1.0,0.0,0.0,1.0]));
-        //objects.push(new Square(this.gl, this.objectShader, 0.5, [0.0, 0.0, 1.0, 1.0]));
-        objects.push(new Cube(this.gl, this.objectShader, 1.0, [0.0, 1.0, 0.0, 1.0]));
-        objects[0].translate([2, 0, 0]);
-        objects[1].translate([-2, 0, 0]);
+        objects.push(new Cube(this.gl, this.objectShader, 1.0, [1.0, 0.5, 0.31, 1.0]));
         return objects;
     }
 
     setupLights() {
         const lights = [];
-        //lights.push(new PointLight(this.gl, this.lightShader, this.objectShader, [1.0, 1.0, 1.0], [0.8, 0.2, 0.6, 1.0], true));
-        lights.push(new PointLight(this.gl, this.lightShader, this.objectShader, [1.0, 1.0, 1.0], [0.8, 0.2, 0.6, 1.0], true));
+        lights.push(new PointLight(this.gl, this.lightShader, this.objectShader, [1.2, 1.0, 2.0], [1.0, 1.0, 1.0, 1.0], true));
         return lights;
     }
 
     setupProjectionMatrix() {
         const projectionMatrix = mat4.create();
         mat4.perspective(projectionMatrix, Math.PI / 4.0, 800 / 600, 0.1, 1000.0);
+
         this.gl.useProgram(this.objectShader);
-        const uProjMatrixLoc = this.gl.getUniformLocation(this.objectShader, 'uProjectionMatrix');
-        this.gl.uniformMatrix4fv(uProjMatrixLoc, false, projectionMatrix);
+        const uProjMatrixLoc_ObjectShader = this.gl.getUniformLocation(this.objectShader, 'uProjectionMatrix');
+        this.gl.uniformMatrix4fv(uProjMatrixLoc_ObjectShader, false, projectionMatrix);
+
+        this.gl.useProgram(this.lightShader);
+        const uProjMatrixLoc_LightShader = this.gl.getUniformLocation(this.lightShader, 'uProjectionMatrix');
+        this.gl.uniformMatrix4fv(uProjMatrixLoc_LightShader, false, projectionMatrix);
     }
 }

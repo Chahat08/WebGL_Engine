@@ -1,8 +1,10 @@
 export class Graphics {
-    constructor(gl, objects, lights, camera, input, clearColor) {
+    constructor(gl, objects, lights, objectShader, lightShader, camera, input, clearColor) {
         this.gl = gl;
         this.objects = objects;
+        this.objectShader = objectShader;
         this.lights = lights;
+        this.lightShader = lightShader;
         this.clearColor = clearColor;
         this.camera = camera;
         this.input = input;
@@ -23,8 +25,10 @@ export class Graphics {
         this.gl.clearColor(this.clearColor[0], this.clearColor[1], this.clearColor[2], this.clearColor[3]);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
-        this.camera.updateLookAtMatrix();
+        this.updateLookAtMatrix(this.objectShader);
         this.drawObjects();
+
+        this.updateLookAtMatrix(this.lightShader);
         this.drawLights();
 
         this.input.handleInput(deltaTime);
@@ -37,8 +41,14 @@ export class Graphics {
     }
 
     drawLights() {
-        for (const lights of this.lights)
-            lights.draw();
+        for (const light of this.lights)
+            light.draw();
+    }
+
+    updateLookAtMatrix(program) {
+        this.gl.useProgram(program);
+        const uViewMatrixLoc = this.gl.getUniformLocation(program, 'uViewMatrix');
+        this.gl.uniformMatrix4fv(uViewMatrixLoc, false, this.camera.getLookAtMatrix());
     }
 
     resizeCanvasToDisplaySize(canvas) {

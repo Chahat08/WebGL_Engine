@@ -10,7 +10,9 @@ export class PointLight {
         this.color = color;
 
         if (draw) {
-            this.lightObject = new Cube(this.gl, this.object_program, 0.1, this.color);
+            gl.useProgram(this.light_program);
+            // TODO: ALLOW ASSOCIATING OTHER OBJECTS WITH LIGHTS
+            this.lightObject = new Cube(this.gl, this.light_program, 0.1, this.color);
             this.lightObject.translate(this.position);
         }
         else this.lightObject = null;

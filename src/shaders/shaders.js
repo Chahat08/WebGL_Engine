@@ -14,6 +14,7 @@ export function compileShader(gl, source, type) {
 }
 
 export function createShaderProgram(gl, vertexShaderSource, fragmentShaderSource) {
+
     const vertexShader = compileShader(gl, vertexShaderSource, gl.VERTEX_SHADER);
     const fragmentShader = compileShader(gl, fragmentShaderSource, gl.FRAGMENT_SHADER);
 
