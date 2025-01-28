@@ -25,6 +25,8 @@ export class PointLight {
         gl.useProgram(this.object_program);
         const uLightColorLoc = gl.getUniformLocation(this.object_program, 'uLightColor');
         gl.uniform4fv(uLightColorLoc, this.color);
+        const uLightPosLoc = gl.getUniformLocation(this.object_program, 'uLightPos');
+        gl.uniform3fv(uLightPosLoc, this.position);
     }
 
     draw() {
